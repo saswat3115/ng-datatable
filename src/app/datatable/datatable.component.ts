@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { ColumnComponent } from '../column/column.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { StateService } from './../services/state.service';
+import { IDataList } from './../model/datalist';
 
 @Component({
   selector: 'app-datatable',
@@ -11,16 +13,16 @@ export class DatatableComponent implements OnInit {
 
   public modalRef: BsModalRef;
 
-  @Input() dataset: Array<any>;
+  @Input() dataset: IDataList[];
 
   columns: ColumnComponent[] = [];
-  selectedRowData = {};
+  selectedRowData: IDataList = {Id: null, Name: '', Address: '', Age: '', Status: ''};
 
   addColumns(column) {
     this.columns.push(column);
   }
 
-  constructor(private modalService: BsModalService) {
+  constructor(private modalService: BsModalService, private stateService: StateService) {
   }
 
   public openModal(template: TemplateRef<any>) {
@@ -31,9 +33,7 @@ export class DatatableComponent implements OnInit {
   }
 
   delete(event) {
-    const index =  this.dataset.findIndex(f => f.Id === event);
-    this.dataset.splice(index, 1);
-    sessionStorage.setItem('datalist', JSON.stringify(this.dataset));
+    this.stateService.delete(event);
   }
 
 
@@ -44,22 +44,8 @@ export class DatatableComponent implements OnInit {
 
   submit() {
     const seleted = this.selectedRowData as any;
-    if (!seleted.Id) {
-      seleted.Id = this.dataset.length ? this.dataset.length + 1 : 1;
-      this.dataset.push(seleted);
-    } else {
-      this.dataset.forEach(d => {
-        if (d.Id === seleted.Id) {
-            d.name = seleted.name;
-            d.address = seleted.address;
-            d.age = seleted.age;
-            d.status = seleted.status;
-        }
-      });
-    }
-
-    sessionStorage.setItem('datalist', JSON.stringify(this.dataset));
-    this.selectedRowData = {};
+    seleted.Id ? this.stateService.update(seleted) : this.stateService.add(seleted);
+    this.selectedRowData =  {Id: null, Name: '', Address: '', Age: '', Status: ''};
     this.modalRef.hide();
   }
 

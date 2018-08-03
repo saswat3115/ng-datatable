@@ -5,6 +5,9 @@ import { FormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { ColumnComponent } from './column/column.component';
 import { DatatableComponent } from './datatable/datatable.component';
+import { NgRedux, NgReduxModule } from '@angular-redux/store';
+import { IAppState, rootReducer, INITIAL_STATE } from './redux/store';
+import { StateService } from './services/state.service';
 
 
 @NgModule({
@@ -14,9 +17,14 @@ import { DatatableComponent } from './datatable/datatable.component';
     DatatableComponent
   ],
   imports: [
-  BrowserModule, FormsModule, ModalModule.forRoot()
+  BrowserModule, FormsModule, ModalModule.forRoot(), NgReduxModule
   ],
-  providers: [],
+  providers: [StateService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+  constructor (ngRedux: NgRedux<IAppState>) {
+    ngRedux.configureStore(rootReducer, INITIAL_STATE);
+  }
+}
