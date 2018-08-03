@@ -15,19 +15,23 @@ export function rootReducer(state: IAppState, action): IAppState {
     case ADD_ITEM:
       action.dataList.Id = state.dataList.length + 1;
       state.dataList.push(Object.assign({}, action.dataList));
-      localStorage.setItem('stored-data', JSON.stringify(state.dataList));
+      saveToLocalStorage(state.dataList);
       break;
     case DELETE_ITEM:
       const index = state.dataList.findIndex(i => i.Id === action.Id);
       state.dataList.splice(index, 1);
-      localStorage.setItem('stored-data', JSON.stringify(state.dataList));
+      saveToLocalStorage(state.dataList);
       break;
     case UPDATE_ITEM:
       const itemIndex = state.dataList.findIndex(i => i.Id === action.dataList.Id);
       const item = state.dataList.find(i => i.Id === action.dataList.Id);
       state.dataList.splice(itemIndex, 1, item);
-      localStorage.setItem('stored-data', JSON.stringify(state.dataList));
+      saveToLocalStorage(state.dataList);
       break;
   }
   return state;
+}
+
+function saveToLocalStorage(obj: any) {
+  localStorage.setItem('stored-data', JSON.stringify(obj));
 }
