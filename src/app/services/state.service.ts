@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NgRedux, select } from '@angular-redux/store';
+import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../redux/store';
 import { ADD_ITEM, DELETE_ITEM, UPDATE_ITEM } from './../redux/actions';
 import { Observable } from '../../../node_modules/rxjs';

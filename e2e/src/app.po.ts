@@ -6,6 +6,14 @@ export class AppPage {
   }
 
   getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+    return element(by.css('app-root div')).getAttribute('class');
+  }
+
+  getAddButton() {
+    return element(by.buttonText('Add New'));
+  }
+
+  getModalWindow() {
+    return element(by.className('modal-body')).getAttribute('id');
   }
 }
