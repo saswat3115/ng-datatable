@@ -17,6 +17,10 @@ export class AppPage {
     return element(by.buttonText('Edit'));
   }
 
+  getDeleteButton() {
+    return element(by.buttonText('Delete'));
+  }
+
   getModalWindow() {
     return element(by.className('modal-body')).getAttribute('id');
   }
