@@ -6,7 +6,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of dataset">
+    <tr *ngFor="let row of dataset" class="tr-item-list">
       <td *ngFor="let col of columns"> {{ row[col.value] }} </td>
       <td>
          <button class="btn btn-info btn-sm" (click)="editEmit(row['Id'], template)">Edit</button> &nbsp;
