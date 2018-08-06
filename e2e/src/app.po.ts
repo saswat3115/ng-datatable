@@ -13,7 +13,26 @@ export class AppPage {
     return element(by.buttonText('Add New'));
   }
 
+  getEditButton() {
+    return element(by.buttonText('Edit'));
+  }
+
   getModalWindow() {
     return element(by.className('modal-body')).getAttribute('id');
+  }
+
+  addNewItemToTable(data) {
+    this.getAddButton().click();
+
+    element(by.name('inputName')).sendKeys(data.name);
+    element(by.name('address')).sendKeys(data.address);
+    element(by.name('age')).sendKeys(data.age);
+    element(by.name('selectStatus')).sendKeys(data.status);
+
+    element(by.css('input[type=submit]')).click();
+  }
+
+  sampleInputData() {
+    return {name: 'Bob', address: 'Hyderabad', age: '25', status: 'active'};
   }
 }
